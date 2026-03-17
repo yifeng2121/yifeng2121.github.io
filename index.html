@@ -2,6 +2,7 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
+<meta name="google-site-verification" content="yTI_Epg_RN6-e_vdWy9BoYjrg28S-PTnlfblr9tw-rQ" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>翊豐展業有限公司 | Chicago Pneumatic 授權經銷商｜台中空壓機專家</title>
 <meta name="description" content="翊豐展業有限公司｜台中Chicago Pneumatic授權經銷商｜空壓機節能補助協辦｜變頻空壓機｜螺旋式空壓機銷售維修保養｜中彰投服務｜04-2351-2121">
@@ -313,6 +314,7 @@ footer{background:#060809;border-top:1px solid var(--b);padding:44px 5% 24px;}
 .ep-intro{max-width:720px;margin:0 auto 56px;text-align:center;}
 .ep-intro p{color:var(--t2);font-size:15px;line-height:1.9;margin-top:16px;}
 .ep-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:56px;}
+.ep-steps .ep-step:last-child:nth-child(3n+1){grid-column:1/-1;max-width:calc(33.333% - 14px);}
 .ep-step{background:var(--card);border:1px solid var(--b);padding:28px 24px;position:relative;transition:.3s;}
 .ep-step:hover{border-color:var(--gold);transform:translateY(-3px);}
 .ep-step-num{position:absolute;top:16px;right:18px;font-size:11px;font-weight:900;color:rgba(200,150,74,.25);letter-spacing:1px;}
@@ -441,6 +443,7 @@ async function handleFormSubmit(e) {
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#about">關於我們</a></li>
+    <li><a href="#fad-knowledge">排氣量解析</a></li>
     <li><a href="#certifications">認證規範</a></li>
     <li><a href="#products">產品介紹</a></li>
     <li><a href="#air-quality">空氣品質</a></li>
@@ -608,6 +611,518 @@ async function handleFormSubmit(e) {
 
   </div>
 </section>
+
+<!-- ============================================================
+     排氣量工程知識專區 + 計算工具  #fad-knowledge
+     ============================================================ -->
+<style>
+/* === 排氣量知識專區 === */
+#fad-knowledge{padding:90px 0;background:var(--bg);border-top:2px solid rgba(200,150,74,.15);}
+#fad-knowledge .fk-inner{max-width:1200px;margin:0 auto;padding:0 5%;}
+.fk-intro{max-width:760px;margin:0 auto 56px;text-align:center;}
+.fk-intro p{color:var(--t2);font-size:15px;line-height:1.9;margin-top:16px;}
+
+/* 知識卡片 grid */
+.fk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:60px;}
+.fk-card{background:var(--card);border:1px solid var(--b);border-radius:2px;cursor:pointer;transition:.3s;position:relative;overflow:hidden;}
+.fk-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gG);transform:scaleX(0);transform-origin:left;transition:.4s;}
+.fk-card:hover::before,.fk-card.open::before{transform:scaleX(1);}
+.fk-card:hover,.fk-card.open{border-color:rgba(200,150,74,.35);background:var(--hov);}
+.fk-head{padding:22px 22px 0;display:flex;align-items:flex-start;gap:14px;}
+.fk-num{font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:rgba(200,150,74,.4);flex-shrink:0;margin-top:2px;}
+.fk-icon{font-size:28px;flex-shrink:0;}
+.fk-info{flex:1;}
+.fk-tag{font-size:10px;letter-spacing:2px;color:var(--gold);font-family:'Rajdhani',sans-serif;font-weight:700;text-transform:uppercase;margin-bottom:5px;}
+.fk-title{font-size:14px;font-weight:700;color:var(--t);line-height:1.35;}
+.fk-preview{padding:12px 22px 16px 22px;font-size:12px;color:var(--t2);line-height:1.75;padding-left:74px;}
+.fk-toggle{display:flex;align-items:center;justify-content:flex-end;padding:0 22px 14px;gap:6px;font-size:11px;color:var(--mu);letter-spacing:1px;}
+.fk-toggle-icon{width:18px;height:18px;border:1px solid var(--b2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;transition:.3s;color:var(--gold);}
+.fk-card.open .fk-toggle-icon{transform:rotate(180deg);background:rgba(200,150,74,.15);}
+.fk-body{max-height:0;overflow:hidden;transition:max-height .45s ease;}
+.fk-card.open .fk-body{max-height:600px;}
+.fk-content{padding:0 22px 22px 22px;border-top:1px solid var(--b);margin:0 22px;}
+
+/* 內容樣式 */
+.fk-formula{background:#0d1118;border:1px solid rgba(200,150,74,.25);border-left:3px solid var(--gold);padding:14px 18px;font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;color:var(--gold);letter-spacing:1px;margin:14px 0;border-radius:0 2px 2px 0;}
+.fk-hl{background:rgba(204,34,51,.1);border-left:3px solid var(--red);padding:10px 14px;font-size:12px;color:var(--t);line-height:1.75;margin:12px 0;}
+.fk-hl-b{background:rgba(200,150,74,.08);border-left:3px solid var(--gold);padding:10px 14px;font-size:12px;color:var(--t);line-height:1.75;margin:12px 0;}
+.fk-hl-g{background:rgba(80,200,120,.08);border-left:3px solid #50c878;padding:10px 14px;font-size:12px;color:var(--t);line-height:1.75;margin:12px 0;}
+.fk-list{list-style:none;padding:0;margin:10px 0;display:flex;flex-direction:column;gap:6px;}
+.fk-list li{font-size:12px;color:var(--t2);line-height:1.7;display:flex;gap:8px;}
+.fk-list li::before{content:'▸';color:var(--gold);flex-shrink:0;}
+.fk-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0;}
+.fk-mini{background:#0d1118;border:1px solid var(--b);padding:12px 14px;border-radius:2px;}
+.fk-mini-t{font-size:10px;letter-spacing:1.5px;color:var(--mu);font-family:'Rajdhani',sans-serif;font-weight:700;text-transform:uppercase;margin-bottom:6px;}
+.fk-mini-v{font-size:13px;color:var(--t);font-weight:500;}
+
+/* 計算工具 */
+.fk-calc-wrap{background:var(--bg2);border:1px solid var(--b);padding:0;position:relative;overflow:hidden;}
+.fk-calc-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gG);}
+.fk-calc-head{padding:28px 32px 20px;border-bottom:1px solid var(--b);}
+.fk-calc-title{font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;letter-spacing:2px;color:var(--gold);margin-bottom:4px;}
+.fk-calc-sub{font-size:12px;color:var(--mu);}
+.fk-calc-body{display:grid;grid-template-columns:1.1fr 1fr;gap:0;}
+.fk-calc-form{padding:28px 32px;border-right:1px solid var(--b);}
+.fk-calc-result{padding:28px 32px;background:var(--card);}
+.fk-sec-label{font-size:10px;letter-spacing:3px;color:var(--gold);font-family:'Rajdhani',sans-serif;font-weight:700;text-transform:uppercase;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(200,150,74,.2);}
+.fk-row{display:flex;flex-direction:column;margin-bottom:14px;}
+.fk-row label{font-size:10px;color:var(--mu);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;}
+.fk-row input,.fk-row select{background:var(--bg);border:1px solid var(--b);color:var(--t);padding:9px 12px;font-family:'Noto Sans TC',sans-serif;font-size:13px;outline:none;transition:.2s;}
+.fk-row input:focus,.fk-row select:focus{border-color:var(--gold);}
+.fk-device-list{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.fk-device{display:grid;grid-template-columns:1fr 80px 28px;gap:8px;align-items:center;}
+.fk-device input{background:var(--bg);border:1px solid var(--b);color:var(--t);padding:7px 10px;font-size:12px;font-family:'Noto Sans TC',sans-serif;outline:none;}
+.fk-device input:focus{border-color:var(--gold);}
+.fk-device-del{background:rgba(204,34,51,.15);border:1px solid rgba(204,34,51,.3);color:#e05252;width:28px;height:28px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:.2s;flex-shrink:0;}
+.fk-device-del:hover{background:rgba(204,34,51,.3);}
+.fk-add-btn{background:transparent;border:1px dashed rgba(200,150,74,.35);color:var(--gold);padding:7px 14px;font-size:11px;letter-spacing:1px;cursor:pointer;width:100%;transition:.2s;font-family:'Noto Sans TC',sans-serif;}
+.fk-add-btn:hover{background:rgba(200,150,74,.08);}
+.fk-calc-btn{width:100%;padding:12px;background:var(--gG);border:none;color:#0a0c10;font-family:'Noto Sans TC',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;cursor:pointer;margin-top:16px;transition:.2s;}
+.fk-calc-btn:hover{box-shadow:0 6px 24px rgba(200,150,74,.4);}
+.fk-result-row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--b);}
+.fk-result-label{font-size:12px;color:var(--t2);}
+.fk-result-val{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700;color:var(--t);}
+.fk-result-val.gold{color:var(--gold);}
+.fk-result-val.green{color:#50c878;font-size:22px;}
+.fk-result-val.red{color:#e05252;}
+.fk-formula-box{background:#0d1118;border:1px solid rgba(200,150,74,.2);padding:12px 16px;margin-top:14px;}
+.fk-formula-box .fk-formula-line{font-family:'Rajdhani',sans-serif;font-size:13px;color:rgba(200,150,74,.7);line-height:2;}
+.fk-result-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:200px;gap:10px;color:var(--mu);font-size:13px;text-align:center;}
+.fk-result-placeholder-icon{font-size:40px;opacity:.4;}
+@media(max-width:960px){
+  .fk-grid{grid-template-columns:1fr 1fr;}
+  .fk-calc-body{grid-template-columns:1fr;}
+  .fk-calc-form{border-right:none;border-bottom:1px solid var(--b);}
+}
+@media(max-width:600px){.fk-grid{grid-template-columns:1fr;}}
+</style>
+
+<section id="fad-knowledge">
+  <div class="fk-inner">
+
+    <!-- 標題 -->
+    <div class="fk-intro reveal">
+      <div class="stag" style="justify-content:center;">排氣量工程解析</div>
+      <h2 class="stitle">影響空壓機排氣量的<br>核心因素與精準計算</h2>
+      <p>從機械幾何、環境條件到熱力學損耗——深入理解排氣量的每一個影響環節，才能真正選對機型、用對壓力，實現最大節能效益。</p>
+    </div>
+
+    <!-- 知識卡片 10張 -->
+    <div class="fk-grid reveal">
+
+      <!-- 01 容積效率 -->
+      <div class="fk-card" onclick="fkToggle(this)">
+        <div class="fk-head">
+          <span class="fk-num">01</span>
+          <span class="fk-icon">🌀</span>
+          <div class="fk-info">
+            <div class="fk-tag">基礎概念</div>
+            <div class="fk-title">容積效率：被偷走的真實產氣量</div>
+          </div>
+        </div>
+        <div class="fk-preview">實際排氣量（FAD）永遠小於銘牌的理論排氣量，差距就藏在容積效率 η_v 裡。</div>
+        <div class="fk-toggle"><span class="fk-toggle-icon">▼</span></div>
+        <div class="fk-body">
+          <div class="fk-content">
+            <div class="fk-formula">Q_actual = Q_theoretical × η_v</div>
+            <p style="font-size:12px;color:var(--t2);line-height:1.8;margin-bottom:12px;">容積效率是評估主機健康度與系統真實效能的終極指標。理論排氣量與實際排氣量之間的損耗，可分為三大來源：</p>
+            <div class="fk-2col">
+              <div class="fk-mini"><div class="fk-mini-t">內部洩漏 ΔQ_leak</div><div class="fk-mini-v">高壓氣體從間隙反流，壓差愈大洩漏愈多</div></div>
+              <div class="fk-mini"><div class="fk-mini-t">環境折損 ΔQ_env</div><div class="fk-mini-v">高溫、高濕、進氣阻抗造成質量流量損失</div></div>
+            </div>
+            <div class="fk-hl">💡 了解排氣量，就是了解如何搶救被偷走的 η_v。銘牌馬力數不等於真實產氣量。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 理論排氣量 -->
+      <div class="fk-card" onclick="fkToggle(this)">
+        <div class="fk-head">
+          <span class="fk-num">02</span>
+          <span class="fk-icon">⚙️</span>
+          <div class="fk-info">
+            <div class="fk-tag">機械幾何</div>
+            <div class="fk-title">理論排氣量的誕生：純粹的機械幾何</div>
+          </div>
+        </div>
+        <div class="fk-preview">理論排氣量由轉子的物理尺寸決定，與壓力、溫度無關，是純粹的「體積 × 速度」。</div>
+        <div class="fk-toggle"><span class="fk-toggle-icon">▼</span></div>
+        <div class="fk-body">
+          <div class="fk-content">
+            <div class="fk-formula">Q_t = A × L × n × z</div>
+            <ul class="fk-list">
+              <li><strong style="color:var(--t)">A</strong>：齒間截面積（Cross-sectional area）</li>
+              <li><strong style="color:var(--t)">L</strong>：轉子長度（Rotor length）</li>
+              <li><strong style="color:var(--t)">n</strong>：轉速（RPM）</li>
+              <li><strong style="color:var(--t)">z</strong>：轉子齒數（Number of lobes）</li>
+            </ul>
+            <div class="fk-hl-b">⚠️ 幾何優化的兩面刃：增加轉子深度能提升排氣量，但若未經 CFD 優化，過深的齒槽會加劇接觸面的微小間隙洩漏。優化標準 5/6 齒型轉子可將容積效率提升 2.73%。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03 壓力差與內部洩漏 -->
+      <div class="fk-card" onclick="fkToggle(this)">
+        <div class="fk-head">
+          <span class="fk-num">03</span>
+          <span class="fk-icon">💨</span>
+          <div class="fk-info">
+            <div class="fk-tag">效率殺手 #1</div>
+            <div class="fk-title">壓力差與內部洩漏</div>
+          </div>
+        </div>
+        <div class="fk-preview">螺旋轉子之間必須保持微米級間隙，這層間隙就是高壓氣體反撲的破口。</div>
+        <div class="fk-toggle"><span class="fk-toggle-icon">▼</span></div>
+        <div class="fk-body">
+          <div class="fk-content">
+            <div class="fk-2col">
+              <div class="fk-mini"><div class="fk-mini-t">機械現實</div><div class="fk-mini-v" style="font-size:12px;">無接觸運轉需要微米級間隙，高壓氣體從此逆向洩漏至進氣端</div></div>
+              <div class="fk-mini"><div class="fk-mini-t">熱力學現實</div><div class="fk-mini-v" style="font-size:12px;">排氣壓力與內部洩漏量成正比，壓力愈高洩漏愈嚴重</div></div>
+            </div>
+            <div class="fk-hl">🚨 系統警告：盲目調高系統壓力（補償管路壓降）將導致真實排氣量（CFM）暴跌。排氣壓力每升高 1 bar，耗電量攀升 7%～10%。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04 進氣環境物理學 -->
+      <div class="fk-card" onclick="fkToggle(this)">
+        <div class="fk-head">
+          <span class="fk-num">04</span>
+          <span class="fk-icon">🌡️</span>
+          <div class="fk-info">
+            <div class="fk-tag">效率殺手 #2</div>
+            <div class="fk-title">進氣環境物理學</div>
+          </div>
+        </div>
+        <div class="fk-preview">台灣夏日高溫高濕，每3°C溫升就「吃掉」1%的實際產氣量，濾網堵塞更直接扼殺質量流量。</div>
+        <div class="fk-toggle"><span class="fk-toggle-icon">▼</span></div>
+        <div class="fk-body">
+          <div class="fk-content">
+            <div class="fk-2col">
+              <div class="fk-mini"><div class="fk-mini-t">熱膨脹效應（3°C Rule）</div><div class="fk-mini-v" style="font-size:12px;">進氣溫度每升高 3°C，空氣密度降低，空壓機吸入的實際空氣質量減少 1%</div></div>
+              <div class="fk-mini"><div class="fk-mini-t">進氣阻抗</div><div class="fk-mini-v" style="font-size:12px;">過濾網堵塞如同「氣管狹窄」，進氣端壓力低於 1 bar，從源頭抹殺質量流量</div></div>
+            </div>
+            <div class="fk-hl-b">💧 濕度補充：台灣夏日濕度常高達 70%～80%。水蒸氣佔據氣體體積，壓縮後凝結成冷凝水，完全無法轉化為可用風量，白白消耗壓縮功。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05 FAD 標準化換算 -->
+      <div class="fk-card" onclick="fkToggle(this)">
+        <div class="fk-head">
+          <span class="fk-num">05</span>
+          <span class="fk-icon">📐</span>
+          <div class="fk-info">
+            <div class="fk-tag">標準量測</div>
+            <div class="fk-title">FAD / SCFM 標準化換算</div>
+          </div>
+        </div>
+        <div class="fk-preview">現場測得的排氣量，必須嚴格透過公式回推至「標準狀態」，才能真實判定空壓機效能。</div>
+        <div class="fk-toggle"><span class="fk-toggle-icon">▼</span></div>
+        <div class="fk-body">
+          <div class="fk-content">
+            <div class="fk-hl-b">🔬 ISO 1217 標準狀態基準</div>
+            <ul class="fk-list">
+              <li>絕對壓力：100 kPa（1 bar）</li>
+              <li>進氣溫度：20°C</li>
+              <li>相對濕度：0%</li>
+            </ul>
+            <div class="fk-formula" style="font-size:14px;">q_vcorr = K_13 × q_VR</div>
+            <p style="font-size:11px;color:var(--mu);margin-top:6px;">K_13 為 ISO 1217 冷凝水修正因子；q_VR 為現場實際讀取體積流量。現場條件（高溫 35°C、濕度 85%、海拔 500m）必須嚴格換算，避免環境變數掩蓋設備老化的真相。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 06 總需求計算公式 -->
+      <div class="fk-card" onclick="fkToggle(this)">
+        <div class="fk-head">
+          <span class="fk-num">06</span>
+          <span class="fk-icon">🧮</span>
+          <div class="fk-info">
+            <div class="fk-tag">系統設計</div>
+            <div class="fk-title">總需氣量精準計算公式</div>
+          </div>
+        </div>
+        <div class="fk-preview">工廠選機的核心公式，納入設備使用頻率、洩漏率、未來擴產三個關鍵修正係數。</div>
+        <div class="fk-toggle"><span class="fk-toggle-icon">▼</span></div>
+        <div class="fk-body">
+          <div class="fk-content">
+            <div class="fk-formula" style="font-size:13px;line-height:1.8;">Q = (Σ 設備耗氣量 × 使用頻率) × (1 + 洩漏率) × (1 + 擴展係數)</div>
+            <div class="fk-hl">⚠️ 系統設計鐵律：你算出的 Q 值，必須由空壓機在「標準狀態下扣除所有損失後的實際排氣量」來滿足，絕不可單純套用型錄上的理論容積數值。</div>
+            <div class="fk-hl-g">👇 請使用下方計算工具，輸入你工廠的實際設備數據，即時試算所需空壓機容量。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 07 等熵效率與台灣 MEPS -->
+      <div class="fk-card" onclick="fkToggle(this)">
+        <div class="fk-head">
+          <span class="fk-num">07</span>
+          <span class="fk-icon">📊</span>
+          <div class="fk-info">
+            <div class="fk-tag">能效法規</div>
+            <div class="fk-title">台灣一級能效與等熵效率</div>
+          </div>
+        </div>
+        <div class="fk-preview">選擇具備「一級能效（d &gt; 5）」標章的設備，等同確保極高水平的容積效率。</div>
+        <div class="fk-toggle"><span class="fk-toggle-icon">▼</span></div>
+        <div class="fk-body">
+          <div class="fk-content">
+            <div class="fk-formula" style="font-size:14px;">η_c = [0.35 × V₁ × (P₂^0.2857 − 1)] ÷ P_real</div>
+            <div class="fk-2col">
+              <div class="fk-mini"><div class="fk-mini-t" style="color:#50c878;">一級能效 Tier 1</div><div class="fk-mini-v" style="color:#50c878;font-size:13px;font-weight:700;">d &gt; 5</div></div>
+              <div class="fk-mini"><div class="fk-mini-t">二級能效 Tier 2</div><div class="fk-mini-v" style="font-size:13px;">0 &lt; d ≤ 5</div></div>
+            </div>
+            <ul class="fk-list" style="margin-top:10px;">
+              <li>固定轉速迴轉式：η_b = (−0.928 ln²V₁ + 13.911 lnV₁ + 27.110) + ... × d/100</li>
+              <li>可變轉速迴轉式：η_b = (−1.549 ln²V₁ + 21.573 lnV₁ + 0.905) + ... × d/100</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 08 三大黃金法則 -->
+      <div class="fk-card" onclick="fkToggle(this)">
+        <div class="fk-head">
+          <span class="fk-num">08</span>
+          <span class="fk-icon">🏆</span>
+          <div class="fk-info">
+            <div class="fk-tag">實戰行動</div>
+            <div class="fk-title">捍衛容積效率的三大黃金法則</div>
+          </div>
+        </div>
+        <div class="fk-preview">維護容積效率不只是保養問題，更是系統設計與操作紀律的綜合成果。</div>
+        <div class="fk-toggle"><span class="fk-toggle-icon">▼</span></div>
+        <div class="fk-body">
+          <div class="fk-content">
+            <ul class="fk-list">
+              <li><strong style="color:var(--t)">法則一 — 淨化與冷卻進氣環境：</strong>將空壓機進氣口移至陰涼、乾燥處。定期更換進氣濾網，降低進氣阻抗，確保 100% 的質量流量進入主機。</li>
+              <li><strong style="color:var(--t)">法則二 — 根除管路壓降，拒絕超壓：</strong>管徑過小、彎頭過多造成末端壓降。優化管路設計，只壓縮到「剛好滿足設備」的壓力，從根本阻斷主機內部的逆向洩漏。</li>
+              <li><strong style="color:var(--t)">法則三 — 升級核心壓縮技術：</strong>高壓或大流量需求選用兩級壓縮（Two-Stage）；變動負載導入永磁變頻（PM-VSD）。透過科技手段鎖住容積效率，徹底消除空載與過壓縮損耗。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 09 Flow Funnel 完整視圖 -->
+      <div class="fk-card" onclick="fkToggle(this)" style="grid-column:1/-1;">
+        <div class="fk-head">
+          <span class="fk-num">09</span>
+          <span class="fk-icon">🔭</span>
+          <div class="fk-info">
+            <div class="fk-tag">系統總覽</div>
+            <div class="fk-title">Flow Funnel：從理論到實際的完整損耗路徑</div>
+          </div>
+        </div>
+        <div class="fk-preview">看懂「流體漏斗」，就能精準定位工廠的節能切入點——從理論排氣量到實際 FAD，每一段損耗都有對應的改善方案。</div>
+        <div class="fk-toggle"><span class="fk-toggle-icon">▼</span></div>
+        <div class="fk-body">
+          <div class="fk-content">
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0;">
+              <div style="background:#0d1118;border:1px solid rgba(200,150,74,.2);padding:14px;border-top:2px solid var(--gold);">
+                <div style="font-size:10px;letter-spacing:2px;color:var(--gold);font-family:'Rajdhani',sans-serif;font-weight:700;margin-bottom:8px;">STEP 1 — 起點</div>
+                <div style="font-size:13px;color:var(--t);font-weight:700;margin-bottom:4px;">Q_theoretical（100%）</div>
+                <div style="font-size:11px;color:var(--t2);line-height:1.7;">由轉子幾何決定的理論最大排氣量。此值由銘牌標示，是所有損耗計算的基準。</div>
+              </div>
+              <div style="background:#0d1118;border:1px solid rgba(204,34,51,.2);padding:14px;border-top:2px solid var(--red);">
+                <div style="font-size:10px;letter-spacing:2px;color:#e05252;font-family:'Rajdhani',sans-serif;font-weight:700;margin-bottom:8px;">STEP 2 — 損耗</div>
+                <div style="font-size:13px;color:var(--t);font-weight:700;margin-bottom:4px;">三大損耗同時作用</div>
+                <div style="font-size:11px;color:var(--t2);line-height:1.7;">① 內部洩漏 ΔQ_leak<br>② 環境折損 ΔQ_env（溫、濕、阻）<br>③ 壓差阻抗 ΔQ_impedance</div>
+              </div>
+              <div style="background:#0d1118;border:1px solid rgba(80,200,120,.2);padding:14px;border-top:2px solid #50c878;">
+                <div style="font-size:10px;letter-spacing:2px;color:#50c878;font-family:'Rajdhani',sans-serif;font-weight:700;margin-bottom:8px;">STEP 3 — 終點</div>
+                <div style="font-size:13px;color:var(--t);font-weight:700;margin-bottom:4px;">Q_actual（FAD）</div>
+                <div style="font-size:11px;color:var(--t2);line-height:1.7;">ISO 1217 標準狀態下的實際排氣量。這才是工廠真正能使用的壓縮空氣量。</div>
+              </div>
+            </div>
+            <div class="fk-hl">💡 選機的核心原則：確認機器的 FAD 數值必須 ≥ 工廠總需氣量計算結果，並預留 10~20% 彈性空間。切勿以理論排氣量或馬力數作為唯一選型依據。</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /fk-grid -->
+
+    <!-- ====== 排氣量需求計算工具 ====== -->
+    <div class="reveal">
+      <div class="stag">互動計算工具</div>
+      <h3 class="stitle" style="font-size:clamp(22px,3vw,34px);margin-bottom:10px;">工廠總需氣量<br>精準試算器</h3>
+      <p class="sdesc" style="margin-bottom:32px;">依據 Q = (Σ 設備耗氣量 × 使用頻率) × (1 + 洩漏率) × (1 + 擴展係數) 公式，輸入工廠實際設備數據，即時計算所需空壓機 FAD 容量。</p>
+    </div>
+
+    <div class="fk-calc-wrap reveal">
+      <div class="fk-calc-head">
+        <div class="fk-calc-title">AIRFLOW DEMAND CALCULATOR</div>
+        <div class="fk-calc-sub">工廠壓縮空氣總需求量計算 · 依 ISO 1217 標準容積流量（FAD）輸出</div>
+      </div>
+      <div class="fk-calc-body">
+
+        <!-- 左側輸入 -->
+        <div class="fk-calc-form">
+          <div class="fk-sec-label">Step 1 — 氣動設備清單</div>
+          <div style="display:grid;grid-template-columns:1fr 80px;gap:8px;margin-bottom:8px;">
+            <div style="font-size:10px;color:var(--mu);letter-spacing:1px;padding:0 4px;">設備名稱 · 耗氣量 (m³/min)</div>
+            <div style="font-size:10px;color:var(--mu);letter-spacing:1px;text-align:center;">使用率</div>
+          </div>
+          <div class="fk-device-list" id="fkDeviceList">
+            <div class="fk-device">
+              <input type="text" placeholder="設備名稱 · 耗氣量(m³/min)" value="氣動工具 · 0.5">
+              <input type="number" step="0.05" min="0.05" max="1" value="0.8" title="使用率 0~1">
+              <button class="fk-device-del" onclick="fkDelDevice(this)">×</button>
+            </div>
+            <div class="fk-device">
+              <input type="text" placeholder="設備名稱 · 耗氣量(m³/min)" value="噴砂設備 · 1.5">
+              <input type="number" step="0.05" min="0.05" max="1" value="0.6" title="使用率 0~1">
+              <button class="fk-device-del" onclick="fkDelDevice(this)">×</button>
+            </div>
+            <div class="fk-device">
+              <input type="text" placeholder="設備名稱 · 耗氣量(m³/min)" value="氣缸設備 · 0.8">
+              <input type="number" step="0.05" min="0.05" max="1" value="1.0" title="使用率 0~1">
+              <button class="fk-device-del" onclick="fkDelDevice(this)">×</button>
+            </div>
+          </div>
+          <button class="fk-add-btn" onclick="fkAddDevice()">＋ 新增設備</button>
+
+          <div class="fk-sec-label" style="margin-top:22px;">Step 2 — 系統修正係數</div>
+          <div class="fk-row">
+            <label>管路洩漏率（建議輸入 5%～30%，一般廠 15% 起）</label>
+            <input type="range" id="fkLeak" min="5" max="40" value="15" oninput="fkUpdateLeak(this.value)" style="background:transparent;border:none;padding:4px 0;cursor:pointer;">
+            <div style="display:flex;justify-content:space-between;font-family:'Rajdhani',sans-serif;font-size:13px;margin-top:4px;">
+              <span style="color:var(--mu);">5%</span>
+              <span id="fkLeakVal" style="color:var(--gold);font-weight:700;">15 %</span>
+              <span style="color:var(--mu);">40%</span>
+            </div>
+          </div>
+          <div class="fk-row">
+            <label>未來擴產預留係數（建議 10%～30%）</label>
+            <input type="range" id="fkExpand" min="0" max="50" value="20" oninput="fkUpdateExpand(this.value)" style="background:transparent;border:none;padding:4px 0;cursor:pointer;">
+            <div style="display:flex;justify-content:space-between;font-family:'Rajdhani',sans-serif;font-size:13px;margin-top:4px;">
+              <span style="color:var(--mu);">0%</span>
+              <span id="fkExpandVal" style="color:var(--gold);font-weight:700;">20 %</span>
+              <span style="color:var(--mu);">50%</span>
+            </div>
+          </div>
+          <div class="fk-row">
+            <label>進氣溫度修正（實際進氣溫度，標準 20°C）</label>
+            <input type="number" id="fkTemp" value="30" min="0" max="50" step="1">
+          </div>
+
+          <button class="fk-calc-btn" onclick="fkCalc()">▶ 立即計算所需空壓機容量</button>
+        </div>
+
+        <!-- 右側結果 -->
+        <div class="fk-calc-result">
+          <div class="fk-sec-label">計算結果</div>
+          <div id="fkResultArea">
+            <div class="fk-result-placeholder">
+              <div class="fk-result-placeholder-icon">📋</div>
+              <div>填寫左側設備清單後<br>按下計算按鈕即可取得結果</div>
+            </div>
+          </div>
+          <div class="fk-formula-box" style="margin-top:auto;">
+            <div style="font-size:10px;color:var(--mu);letter-spacing:2px;margin-bottom:8px;font-family:'Rajdhani',sans-serif;">ISO 標準計算公式</div>
+            <div class="fk-formula-line">Q = (Σ q_i × f_i)</div>
+            <div class="fk-formula-line">　 × (1 + L_rate)</div>
+            <div class="fk-formula-line">　 × (1 + E_rate)</div>
+            <div class="fk-formula-line">　 × T_factor</div>
+            <div style="font-size:10px;color:var(--mu);margin-top:8px;line-height:1.8;">T_factor = (273 + 20) ÷ (273 + T_intake)<br>溫度修正依 ISO 1217 標準狀態換算</div>
+          </div>
+        </div>
+
+      </div><!-- /fk-calc-body -->
+    </div><!-- /fk-calc-wrap -->
+
+    <!-- 底部 CTA -->
+    <div style="margin-top:44px;text-align:center;padding:36px;background:linear-gradient(135deg,rgba(200,150,74,.07),rgba(200,150,74,.02));border:1px solid rgba(200,150,74,.2);" class="reveal">
+      <div class="stag" style="justify-content:center;">專業選型諮詢</div>
+      <h3 style="font-size:18px;font-weight:700;margin-bottom:8px;">試算結果有疑問？讓我們為您做現場診斷</h3>
+      <p style="font-size:13px;color:var(--t2);margin-bottom:22px;">13年現場經驗，我們提供免費漏氣診斷、壓力優化建議與精準選型報告。</p>
+      <a href="#contact" class="btn-p" style="margin:0 auto;width:fit-content;">免費諮詢選型 →</a>
+    </div>
+
+  </div><!-- /fk-inner -->
+</section>
+
+<script>
+// === 知識卡片開合 ===
+function fkToggle(card){
+  var isOpen=card.classList.contains('open');
+  document.querySelectorAll('.fk-card.open').forEach(function(c){c.classList.remove('open');});
+  if(!isOpen) card.classList.add('open');
+}
+
+// === 洩漏率 / 擴展係數顯示 ===
+function fkUpdateLeak(v){document.getElementById('fkLeakVal').textContent=v+' %';}
+function fkUpdateExpand(v){document.getElementById('fkExpandVal').textContent=v+' %';}
+
+// === 新增 / 刪除設備列 ===
+function fkAddDevice(){
+  var list=document.getElementById('fkDeviceList');
+  var d=document.createElement('div');
+  d.className='fk-device';
+  d.innerHTML='<input type="text" placeholder="設備名稱 · 耗氣量(m³/min)"><input type="number" step="0.05" min="0.05" max="1" value="0.8" title="使用率 0~1"><button class="fk-device-del" onclick="fkDelDevice(this)">×</button>';
+  list.appendChild(d);
+}
+function fkDelDevice(btn){
+  var list=document.getElementById('fkDeviceList');
+  if(list.children.length<=1){return;}
+  btn.closest('.fk-device').remove();
+}
+
+// === 主計算邏輯 ===
+function fkCalc(){
+  var devices=document.querySelectorAll('#fkDeviceList .fk-device');
+  var leak=parseFloat(document.getElementById('fkLeak').value)/100;
+  var expand=parseFloat(document.getElementById('fkExpand').value)/100;
+  var temp=parseFloat(document.getElementById('fkTemp').value)||30;
+  var tFactor=(273+20)/(273+temp);
+
+  // 解析設備 — 從文字欄位解析最後一個數字作為耗氣量
+  var items=[];
+  var qSum=0;
+  devices.forEach(function(d){
+    var nameInput=d.querySelectorAll('input')[0].value.trim();
+    var freq=parseFloat(d.querySelectorAll('input')[1].value)||0.8;
+    // 嘗試從名稱欄位提取數字（最後一個小數或整數）
+    var nums=nameInput.match(/[\d]+\.?[\d]*/g);
+    var q=nums?parseFloat(nums[nums.length-1]):0;
+    var label=nameInput.replace(/[\d\.]+\s*$/,'').replace(/[··\s]+$/,'').trim()||'設備';
+    if(q>0){
+      items.push({label:label,q:q,freq:freq,sub:q*freq});
+      qSum+=q*freq;
+    }
+  });
+
+  if(items.length===0||qSum===0){
+    document.getElementById('fkResultArea').innerHTML='<div class="fk-result-placeholder"><div class="fk-result-placeholder-icon">⚠️</div><div>請在設備名稱欄位中包含耗氣量數值<br>例如：氣動工具 · 0.5</div></div>';
+    return;
+  }
+
+  var afterLeak=qSum*(1+leak);
+  var afterExpand=afterLeak*(1+expand);
+  var finalFAD=afterExpand*tFactor;
+
+  // 建議機型功率（簡單對照：1 m³/min ≈ 5.5 kW for 7bar 標準螺旋）
+  var estKw=Math.ceil(finalFAD*5.5/5)*5;
+
+  var h='';
+  // 設備清單
+  h+='<div style="font-family:Rajdhani,sans-serif;font-size:10px;letter-spacing:2px;color:var(--mu);margin-bottom:10px;">設備加權耗氣量明細</div>';
+  items.forEach(function(it){
+    h+='<div class="fk-result-row"><span class="fk-result-label">'+it.label+' (×'+it.freq+')</span><span class="fk-result-val" style="font-size:14px;">'+it.sub.toFixed(3)+' m³/min</span></div>';
+  });
+  h+='<div class="fk-result-row"><span class="fk-result-label">設備加權合計 Σ(q×f)</span><span class="fk-result-val gold">'+qSum.toFixed(3)+' m³/min</span></div>';
+  h+='<div class="fk-result-row"><span class="fk-result-label">＋ 洩漏修正 (+'+Math.round(leak*100)+'%)</span><span class="fk-result-val" style="color:#e05252;font-size:15px;">'+afterLeak.toFixed(3)+' m³/min</span></div>';
+  h+='<div class="fk-result-row"><span class="fk-result-label">＋ 擴產預留 (+'+Math.round(expand*100)+'%)</span><span class="fk-result-val" style="font-size:15px;">'+afterExpand.toFixed(3)+' m³/min</span></div>';
+  h+='<div class="fk-result-row"><span class="fk-result-label">溫度修正 (T='+(temp)+'°C→20°C)</span><span class="fk-result-val" style="font-size:15px;">×'+tFactor.toFixed(4)+'</span></div>';
+  h+='<div style="background:rgba(200,150,74,.1);border:1px solid rgba(200,150,74,.35);padding:16px;margin-top:12px;">';
+  h+='<div style="font-size:10px;letter-spacing:3px;color:var(--gold);font-family:Rajdhani,sans-serif;font-weight:700;margin-bottom:6px;">建議選機 FAD（ISO 1217）</div>';
+  h+='<div style="font-family:Rajdhani,sans-serif;font-size:36px;font-weight:700;color:#50c878;line-height:1;">'+finalFAD.toFixed(2)+' <span style="font-size:18px;">m³/min</span></div>';
+  h+='<div style="font-size:11px;color:var(--t2);margin-top:8px;line-height:1.7;">≈ '+(finalFAD*1000/60).toFixed(0)+' L/s &nbsp;|&nbsp; ≈ '+(finalFAD*35.315).toFixed(1)+' CFM<br>建議對應電機功率：約 '+estKw+' kW（以 7 bar 為例）</div>';
+  h+='</div>';
+  h+='<a href="#contact" style="display:block;margin-top:14px;text-align:center;background:rgba(200,150,74,.1);border:1px solid rgba(200,150,74,.3);color:var(--gold);padding:10px;font-size:13px;font-weight:600;text-decoration:none;letter-spacing:1px;">依此結果取得正式選型報價 →</a>';
+  document.getElementById('fkResultArea').innerHTML=h;
+}
+</script>
 
 <section id="certifications">
   <div class="reveal">
@@ -1098,6 +1613,22 @@ async function handleFormSubmit(e) {
       <div class="ep-step-title">節能成效追蹤報告</div>
       <div class="ep-step-desc">導入後定期提供用電量對比報告，數據化呈現節電成效，協助取得政府節能補助資格，同時作為 ESG 能源管理的具體佐證。</div>
     </div>
+    <div class="ep-step">
+      <div class="ep-step-num">STEP 07</div>
+      <div class="ep-step-icon">🧹</div>
+      <div class="ep-step-title">空壓系統過濾設備規劃</div>
+      <div class="ep-step-desc">
+        潔淨乾燥的壓縮空氣是保護設備、穩定製程品質的關鍵基礎，卻也是許多工廠最容易忽略的環節。空氣中的水分、油分與微粒會加速氣動元件磨損、造成管路腐蝕、污染產品表面，長期累積的維修損失往往遠超過設備本身成本。
+        <br><br>
+        翊豐依據客戶製程需求與 ISO 8573-1 國際標準，嚴選<strong style="color:var(--gold)">耐用、高效率、高 CP 值</strong>的後處理設備，為工廠規劃最適合的組合配置：
+        <br><br>
+        🌡️ <strong style="color:var(--t)">冷凍式乾燥機</strong>——壓力露點可達 +3°C，適合一般金屬加工、傳產製造等工業用途，運轉穩定、維護成本低，是 CP 值最高的除濕方案首選。<br>
+        ❄️ <strong style="color:var(--t)">吸附式乾燥機</strong>——露點可達 −40°C 至 −70°C，適用精密機械、電子、食品、醫療等高規格製程，確保空氣品質符合嚴格的潔淨等級要求。<br>
+        🔬 <strong style="color:var(--t)">精密過濾器</strong>——多段式過濾設計，有效去除管路油分、鐵鏽與微粒，搭配乾燥機使用可達 ISO 8573-1 指定等級，全面延長下游設備使用壽命。
+        <br><br>
+        選對設備、配置正確，才能真正保護您的生產線。翊豐提供免費現場評估，協助確認最合適的設備規格與組合方案。
+      </div>
+    </div>
   </div>
 
   <div class="ep-stats reveal">
@@ -1469,8 +2000,8 @@ yf_calcLeak();
       <div class="fb-auth">▸ 台灣授權認證經銷商</div>
       <div class="fb-desc">翊豐展業有限公司<br>台中市大里區新仁路一段1-1巷63號B棟<br>Tel: 04-2351-2121 · Fax: 04-2351-2323<br><a href="/cdn-cgi/l/email-protection#2851414e4d464f1a191a19684f45494144064b4745" style="color:var(--t2);text-decoration:none;"><span class="__cf_email__" data-cfemail="a9d0c0cfccc7ce9b989b98e9cec4c8c0c587cac6c4">[email&#160;protected]</span></a></div>
     </div>
-    <div class="fl"><h4>快速導航</h4><ul><li><a href="#about">關於我們</a></li><li><a href="#certifications">認證規範</a></li><li><a href="#products">產品介紹</a></li><li><a href="#techspecs">技術規格</a></li><li><a href="#calculators">節能試算</a></li>
-    <li><a href="#calculators">節能計算機</a></li><li><a href="#subsidy">節能補助</a></li><li><a href="#contact">聯絡詢價</a></li></ul></div>
+    <div class="fl"><h4>快速導航</h4><ul><li><a href="#about">關於我們</a></li><li><a href="#certifications">認證規範</a></li><li><a href="#products">產品介紹</a></li><li><a href="#fad-knowledge">排氣量解析</a></li><li><a href="#techspecs">技術規格</a></li><li><a href="#calculators">節能試算</a></li>
+    <li><a href="#subsidy">節能補助</a></li><li><a href="#contact">聯絡詢價</a></li></ul></div>
     <div class="fl"><h4>服務項目</h4><ul><li><a href="#products">定速螺旋式空壓機</a></li><li><a href="#products">變頻空壓機（VFD）</a></li><li><a href="#products">無油空壓機</a></li><li><a href="#products">定期保養合約</a></li><li><a href="#products">原廠零件供應</a></li><li><a href="#energy">節能診斷服務</a></li>
 <li><a href="#subsidy">節能補助申請</a></li></ul></div>
     <div class="fl"><h4>認證資源</h4><ul><li><a href="https://compressors.cp.com/en-us/products/screw-compressors" target="_blank">CP 螺旋式空壓機</a></li><li><a href="https://www.cp.com/en-us/compressors/cagi" target="_blank">CAGI 數據表</a></li><li><a href="https://compressors.cp.com" target="_blank">CP 官方網站</a></li></ul></div>
