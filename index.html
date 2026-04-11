@@ -215,6 +215,16 @@ nav.scrolled{border-bottom-color:var(--gold);box-shadow:0 4px 30px rgba(200,150,
 .nav-links a:hover::after{transform:scaleX(1);}
 .nav-cta{background:var(--gG);color:#0a0c10!important;padding:8px 18px;border-radius:4px;font-weight:700!important;}
 .nav-cta::after{display:none!important;}
+.nav-has-dropdown{position:relative;}
+.nav-has-dropdown::after{content:'';position:absolute;bottom:-8px;left:-10px;right:-10px;height:8px;}
+.nav-dropdown-arrow{font-size:9px;margin-left:3px;transition:transform .2s;display:inline-block;}
+.nav-has-dropdown:hover .nav-dropdown-arrow{transform:rotate(180deg);}
+.nav-dropdown-menu{display:none;position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--bg2);border:1px solid var(--b);border-radius:6px;min-width:190px;z-index:1100;padding:8px 0;list-style:none;}
+.nav-has-dropdown:hover .nav-dropdown-menu{display:block;}
+.nav-dropdown-menu li{margin:0;}
+.nav-dropdown-menu a{display:block;padding:9px 16px;font-size:12px;color:var(--t2);text-decoration:none;white-space:nowrap;transition:.2s;}
+.nav-dropdown-menu a:hover{color:var(--gold);background:rgba(200,150,74,.08);}
+.nav-dropdown-menu a::after{display:none!important;}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
 .hamburger span{width:24px;height:2px;background:var(--gold);border-radius:2px;transition:.3s;}
 #hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;}
@@ -408,6 +418,9 @@ footer{background:#060809;border-top:1px solid var(--b);padding:44px 5% 24px;}
   .nav-links{display:none;}
   .nav-links.open{display:flex;flex-direction:column;position:fixed;top:68px;left:0;right:0;background:var(--bg2);padding:20px 5%;gap:16px;border-bottom:1px solid var(--b);z-index:999;}
   .hamburger{display:flex;}
+  .nav-dropdown-menu{display:block;position:static;transform:none;background:transparent;border:none;border-radius:0;padding:4px 0 0 14px;min-width:auto;}
+  .nav-dropdown-menu a{padding:5px 0;font-size:12px;}
+  .nav-has-dropdown:hover .nav-dropdown-arrow{transform:none;}
   #hero{grid-template-columns:1fr;}
   .hero-right-hidden{display:none;}
   .hero-left{padding:100px 5% 60px;}
@@ -627,7 +640,14 @@ async function handleFormSubmit(e) {
     <li><a href="#about">關於我們</a></li>
     <li><a href="#fad-knowledge">排氣量解析</a></li>
     <li><a href="#certifications">認證規範</a></li>
-    <li><a href="#products">產品介紹</a></li>
+    <li class="nav-has-dropdown">
+      <a href="#products">產品介紹 <span class="nav-dropdown-arrow">▾</span></a>
+      <ul class="nav-dropdown-menu">
+        <li><a href="screw-compressor.html">定速螺旋式空壓機</a></li>
+        <li><a href="vfd-compressor.html">變頻空壓機（VFD）</a></li>
+        <li><a href="oil-free-compressor.html">無油空壓機</a></li>
+      </ul>
+    </li>
     <li><a href="#air-quality">空氣品質</a></li>
     <li><a href="#energy-plan">節能規劃</a></li>
     <li><a href="#subsidy">節能補助</a></li>
