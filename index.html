@@ -28,7 +28,7 @@
       "faxNumber": "+886-4-2351-2323",
       "email": "yifeng2121@gmail.com",
       "foundingDate": "2012",
-      "description": "台中市Chicago Pneumatic與Atlas Copco集團授權經銷商，專業提供螺旋式空壓機、變頻空壓機（VFD）銷售、保養、維修及整廠節能規劃。深耕台中13年，服務500家以上製造業客戶，涵蓋精密機械、電子、紡織、印刷等產業。協助客戶申辦節能補助，整廠節能效益最高達35%。",
+      "description": "台中市Chicago Pneumatic與Atlas Copco集團授權經銷商，專業提供螺旋式空壓機、變頻空壓機（VFD）銷售、保養、維修及整廠節能規劃。深耕台中13年，服務500家以上製造業客戶，涵蓋精密機械、電子、食品、塑膠等產業。協助客戶申辦節能補助，整廠節能效益最高達35%。",
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "新仁路一段1-1巷63號B棟",
@@ -331,7 +331,7 @@ section{padding:88px 5%;}
 .tn{font-size:11px;color:var(--mu);margin-top:12px;line-height:1.8;}
 #industries{background:var(--bg2);}
 .ind-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;background:var(--b);margin-top:48px;}
-.ind{background:var(--card);overflow:hidden;transition:.3s;}
+.ind{background:var(--card);overflow:hidden;transition:.3s;display:block;text-decoration:none;}
 .ind:hover{background:var(--hov);}
 .ind-img{width:100%;height:240px;object-fit:contain;background:#0d1520;padding:8px;transition:.4s;display:block;}
 .ind:hover .ind-img{transform:scale(1.05);}
@@ -663,7 +663,7 @@ async function handleFormSubmit(e) {
     <div class="hero-badge"><span class="dot"></span>Chicago Pneumatic · Atlas Copco 集團授權經銷商</div>
     <h1 class="hero-title"><span class="l1">空壓機</span><span class="l2">專業服務</span></h1>
     <p class="hero-sub">整廠節能規劃 · 穩定供氣 · 20 年現場經驗</p>
-    <p class="hero-desc">深耕台中 13 年，團隊成員平均從業逾 20 年。我們不只賣機器，更擅長從系統整體角度規劃壓縮空氣節能方案——從漏氣診斷、壓力優化到 VFD 換型評估，協助精密機械、電子、紡織、印刷等製造業客戶實現穩定供氣與最大節電效益。</p>
+    <p class="hero-desc">深耕台中 13 年，團隊成員平均從業逾 20 年。我們不只賣機器，更擅長從系統整體角度規劃壓縮空氣節能方案——從漏氣診斷、壓力優化到 VFD 換型評估，協助精密機械、電子、食品、塑膠等製造業客戶實現穩定供氣與最大節電效益。</p>
     <div class="hero-actions">
       <a href="#contact" class="btn-p">免費節能診斷 →</a>
       <a href="#calculators" class="btn-o">⚡ 線上試算</a>
@@ -1382,7 +1382,7 @@ function fkCalc(){
     <table class="st">
       <thead><tr><th>機型</th><th>類型</th><th>功率 (HP)</th><th>工作壓力 (psi)</th><th>出風量 (ACFM)</th><th>噪音 dB(A)</th><th>適用行業</th></tr></thead>
       <tbody>
-        <tr><td class="md">CPM / CPD 系列</td><td><span class="bf">定速</span></td><td>5–50 HP</td><td>100 / 125 / 150</td><td>17–238 ACFM</td><td>62–70</td><td>輕工業、印刷、紡織</td></tr>
+        <tr><td class="md">CPM / CPD 系列</td><td><span class="bf">定速</span></td><td>5–50 HP</td><td>100 / 125 / 150</td><td>17–238 ACFM</td><td>62–70</td><td>輕工業、塑膠、包裝</td></tr>
         <tr><td class="md">CPD / CPE 系列</td><td><span class="bf">定速</span></td><td>75–120 HP</td><td>100 / 125 / 150</td><td>238–600 ACFM</td><td>70–74</td><td>精密機械、電子</td></tr>
         <tr><td class="md">CPF 系列</td><td><span class="bf">定速</span></td><td>250–350 HP</td><td>100 / 125 / 150</td><td>900–1,800 ACFM</td><td>77–80</td><td>重工業、大型廠</td></tr>
         <tr><td class="md">CPVS 30–50</td><td><span class="bv">變頻 VFD</span></td><td>30–50 HP</td><td>100–145</td><td>35–239 ACFM</td><td>67–70</td><td>用氣波動中小型廠</td></tr>
@@ -1402,11 +1402,11 @@ function fkCalc(){
     <p class="sdesc">從精密機械到食品飲料，翊豐展業提供符合各行業規範的壓縮空氣系統。</p>
   </div>
   <div class="ind-grid reveal">
-    <div class="ind"><img loading="lazy" class="ind-img" src="images/photo-23.jpg" alt="精密機械"><div class="ind-name">⚙️ 精密機械</div></div>
-    <div class="ind"><img loading="lazy" class="ind-img" src="images/photo-25.jpg" alt="電子組裝"><div class="ind-name">🔌 電子組裝</div></div>
-    <div class="ind"><img loading="lazy" class="ind-img" src="images/photo-26.jpg" alt="紡織產業"><div class="ind-name">🧵 紡織產業</div></div>
-    <div class="ind"><img loading="lazy" class="ind-img" src="images/photo-24.jpg" alt="印刷包裝"><div class="ind-name">🖨️ 印刷包裝</div></div>
-    <div class="ind"><img loading="lazy" class="ind-img" src="images/photo-27.jpg" alt="食品飲料"><div class="ind-name">🏭 食品飲料</div></div>
+    <a class="ind" href="industry-precision.html"><img loading="lazy" class="ind-img" src="images/photo-23.jpg" alt="精密機械・金屬加工空壓機"><div class="ind-name">⚙️ 精密機械・金屬加工 →</div></a>
+    <a class="ind" href="industry-semiconductor.html"><img loading="lazy" class="ind-img" src="images/photo-25.jpg" alt="半導體・電子業空壓機"><div class="ind-name">🔌 半導體・電子 →</div></a>
+    <div class="ind"><img loading="lazy" class="ind-img" src="images/photo-26.jpg" alt="塑膠射出業空壓機"><div class="ind-name">🧪 塑膠射出</div></div>
+    <div class="ind"><img loading="lazy" class="ind-img" src="images/photo-24.jpg" alt="金屬鑄造業空壓機"><div class="ind-name">🔥 金屬鑄造</div></div>
+    <a class="ind" href="industry-food.html"><img loading="lazy" class="ind-img" src="images/photo-27.jpg" alt="食品・飲料業空壓機"><div class="ind-name">🍾 食品・飲料 →</div></a>
   </div>
 </section>
 
@@ -1653,7 +1653,7 @@ function fkCalc(){
           <td>≤ 400,000</td>
           <td>≤ −40°C</td>
           <td>≤ 0.1</td>
-          <td>精密機械、紡織、印刷</td>
+          <td>精密機械、塑膠、包裝</td>
         </tr>
         <tr>
           <td><span class="aq-class-badge aq-cls3">Class 3</span></td>
